@@ -157,18 +157,22 @@ public class StudentManagementSystemImpl implements  StudentManagementSystem {
 
         switch (choice){
             case 1 -> {
+                System.out.println("Sorted By ID:");
                 list.sort(id);
                 display(list);
             }
             case 2 -> {
+                System.out.println("Sorted By Age:");
                 list.sort(age);
                 display(list);
             }
             case 3 -> {
+                System.out.println("Sorted By Name:");
                 list.sort(name);
                 display(list);
             }
             case 4 -> {
+                System.out.println("Sort By Marks:");
                 list.sort(marks);
                 display(list);
             }
@@ -184,16 +188,17 @@ public class StudentManagementSystemImpl implements  StudentManagementSystem {
 
     @Override
     public void getStudentWithHighestMarks() {
-        if (details.containsKey(id)) {
             Set<String> keys = details.keySet();
             List<Student> list = new ArrayList<>();
             for (String key : keys) {
                 list.add(details.get(key));
             }
+        if (details.size() != 0){
             list.sort(new SortBy_Marks());
             System.out.println("Student Details With Highest Marks:");
+
             System.out.println(list.get(list.size() - 1));
-        }else {
+       }else {
             try {
                 throw new StudentInfoNotFoundException();
             }catch (Exception e){
@@ -204,14 +209,14 @@ public class StudentManagementSystemImpl implements  StudentManagementSystem {
 
     @Override
     public void getStudentWithLowestMarks() {
-        if (details.containsKey(id)) {
             Set<String> keys = details.keySet();
             List<Student> list = new ArrayList<>();
             for (String key : keys) {
                 list.add(details.get(key));
             }
+        if (details.size() != 0) {
             list.sort(new SortBy_Marks());
-            System.out.println("Student Details With Highest Marks:");
+            System.out.println("Student Details With Lowest Marks:");
             System.out.println(list.get(list.size()));
         }else {
             try {
@@ -219,7 +224,7 @@ public class StudentManagementSystemImpl implements  StudentManagementSystem {
             }catch (Exception e){
                 System.out.println("Student Records Not found");
             }
-        }
+       }
 
     }
 
