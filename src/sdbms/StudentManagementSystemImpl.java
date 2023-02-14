@@ -3,14 +3,14 @@ package sdbms;
 import CustomException.InvalidChoiceException;
 import CustomException.StudentInfoNotFoundException;
 import StudentDetails.Student;
-import sorting.SortBy_ID_Age_Name_Marks;
+import customSorting.SortBy_Age;
+import customSorting.SortBy_ID;
+import customSorting.SortBy_Marks;
+import customSorting.SortBy_Name;
 
 import java.util.*;
 
 public class StudentManagementSystemImpl implements  StudentManagementSystem {
-
-    SortBy_ID_Age_Name_Marks age ;
-
     Scanner scanner = new Scanner(System.in);
     Map<String, Student> details = new LinkedHashMap<>();
     @Override
@@ -141,7 +141,10 @@ public class StudentManagementSystemImpl implements  StudentManagementSystem {
         System.out.println("Number Of Student details: "+details.size());
 
     }
-
+    SortBy_ID id = new SortBy_ID();
+    SortBy_Age age = new SortBy_Age();
+    SortBy_Name name = new SortBy_Name();
+    SortBy_Marks marks = new SortBy_Marks();
     @Override
     public void sortStudent() {
         List<Student> list = new ArrayList<>();
@@ -154,21 +157,73 @@ public class StudentManagementSystemImpl implements  StudentManagementSystem {
 
         switch (choice){
             case 1 -> {
-                     new SortBy_ID_Age_Name_Marks();
+                list.sort(id);
+                display(list);
             }
             case 2 -> {
-
+                list.sort(age);
+                display(list);
             }
             case 3 -> {
-
+                list.sort(name);
+                display(list);
             }
             case 4 -> {
-
+                list.sort(marks);
+                display(list);
             }
             default -> {
+                try {
+                    throw new InvalidChoiceException("Kindly Enter Valid Choice");
+                } catch (Exception e) {
+                    System.out.println(  e.getMessage());
+                }
+            }
+        }
+    }
 
+    @Override
+    public void getStudentWithHighestMarks() {
+        if (details.containsKey(id)) {
+            Set<String> keys = details.keySet();
+            List<Student> list = new ArrayList<>();
+            for (String key : keys) {
+                list.add(details.get(key));
+            }
+            list.sort(new SortBy_Marks());
+            System.out.println("Student Details With Highest Marks:");
+            System.out.println(list.get(list.size() - 1));
+        }else {
+            try {
+                throw new StudentInfoNotFoundException();
+            }catch (Exception e){
+                System.out.println("Student Records Not found");
+            }
+        }
+    }
+
+    @Override
+    public void getStudentWithLowestMarks() {
+        if (details.containsKey(id)) {
+            Set<String> keys = details.keySet();
+            List<Student> list = new ArrayList<>();
+            for (String key : keys) {
+                list.add(details.get(key));
+            }
+            list.sort(new SortBy_Marks());
+            System.out.println("Student Details With Highest Marks:");
+            System.out.println(list.get(list.size()));
+        }else {
+            try {
+                throw new StudentInfoNotFoundException();
+            }catch (Exception e){
+                System.out.println("Student Records Not found");
             }
         }
 
+    }
+
+    private void display(List<Student> list) {
+       list.forEach(System.out::println);
     }
 }

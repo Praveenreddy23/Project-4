@@ -9,6 +9,8 @@ public interface StudentManagementSystem  {
     void updateStudent();
     void countStudent();
     void sortStudent();
+    void getStudentWithHighestMarks();
+    void getStudentWithLowestMarks();
 
 }
 
